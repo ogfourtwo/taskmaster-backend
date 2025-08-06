@@ -3,14 +3,11 @@ from django.contrib.auth.models import User
 
 
 class Meeting(models.Model):
-    name = models.CharField(max_length=100)
-    type = models.TextField(blank=True)
-    date_and_time = models.DateTimeField()
-    organizer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='organized_meetings')
-    participants = models.ManyToManyField(User, related_name='meetings_attended')
+    title = models.CharField(max_length=100)
+    datetime = models.DateTimeField()
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class MeetingMinutes(models.Model):
@@ -19,7 +16,7 @@ class MeetingMinutes(models.Model):
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f"Minutes for {self.meeting.name}"
+        return f"Minutes for {self.meeting.title}"
 
 
 class Task(models.Model):
@@ -39,4 +36,16 @@ class Task(models.Model):
     )
 
     def __str__(self):
-        return f"Task from {self.minutes.meeting.name} - {self.details[:30]}"
+        return f"Task from {self.minutes.meeting.title} - {self.details[:30]}"
+
+class MeetingRole(models.Model):
+    ROLE_CHOICES = [
+        ('manager', 'Manager'),
+        ('participant', 'Participant'),
+    ]
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE, related_name='roles')
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+
+    class Meta:
+        unique_together = ('user', 'meeting')

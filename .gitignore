@@ -1,35 +1,17 @@
 # Python
 __pycache__/
 *.py[cod]
-*.env
-*.venv/
-venv/
-.env
-
-# Django
-db.sqlite3
+*.sqlite3
 *.log
-*.pot
-*.pyc
-*.pyo
+.env
+# Django
+/staticfiles/
+/media/
 
 # VSCode
 .vscode/
 
-# OS
-.DS_Store
-Thumbs.db
+# Virtual Environment
 
-# PyCharm
-.idea/
-
-# Migrations
-**/migrations/*.pyc
-**/migrations/__pycache__/
-**/migrations/*.log
-
-# dotenv
-.env
-
-# Postgres credentials if stored
-.env
+venv/
+.venv/
